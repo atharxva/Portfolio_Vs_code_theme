@@ -21,10 +21,12 @@ export interface ExperienceItem {
   id: string;
   role: string;
   company: string;
+  logo?: string;
   location: string;
   dateRange: string;
   description: string;
   bullets: string[];
+  metrics?: { label: string; value: string }[];
   tags: string[];
   current?: boolean;
   year: string; // primary year label for the timeline axis

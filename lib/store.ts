@@ -6,11 +6,14 @@ interface EditorState {
   openTabs: FileId[];
   activeTab: FileId | null;
   sidebarOpen: boolean;
+  terminalOpen: boolean;
   commandPaletteOpen: boolean;
   openFile: (id: FileId) => void;
   closeTab: (id: FileId) => void;
   setActive: (id: FileId) => void;
   toggleSidebar: () => void;
+  toggleTerminal: () => void;
+  setTerminalOpen: (open: boolean) => void;
   setCommandPaletteOpen: (open: boolean) => void;
 }
 
@@ -18,6 +21,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   openTabs: [DEFAULT_FILE],
   activeTab: DEFAULT_FILE,
   sidebarOpen: true,
+  terminalOpen: true,
   commandPaletteOpen: false,
 
   openFile: (id) => {
@@ -48,5 +52,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
 
   setActive: (id) => set({ activeTab: id }),
   toggleSidebar: () => set((s) => ({ sidebarOpen: !s.sidebarOpen })),
+  toggleTerminal: () => set((s) => ({ terminalOpen: !s.terminalOpen })),
+  setTerminalOpen: (open) => set({ terminalOpen: open }),
   setCommandPaletteOpen: (open) => set({ commandPaletteOpen: open }),
 }));

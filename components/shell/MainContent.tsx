@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEditorStore } from "@/lib/store";
 import { Welcome } from "@/components/pages/Welcome";
@@ -21,7 +22,14 @@ const PAGES: Record<string, React.ComponentType> = {
 
 export function MainContent() {
   const activeTab = useEditorStore((s) => s.activeTab);
+  const setTerminalOpen = useEditorStore((s) => s.setTerminalOpen);
   const Page = activeTab ? PAGES[activeTab] : null;
+
+  useEffect(() => {
+    if (activeTab !== "welcome") {
+      setTerminalOpen(false);
+    }
+  }, [activeTab, setTerminalOpen]);
 
   return (
     <div className="relative flex-1 overflow-y-auto bg-app">

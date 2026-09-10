@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search } from "lucide-react";
+import { Search, Terminal as TerminalIcon } from "lucide-react";
 import { useEditorStore } from "@/lib/store";
 import { FILES } from "@/lib/files";
 import { FileIcon } from "@/components/ui/FileIcon";
@@ -11,11 +11,12 @@ export function CommandPalette() {
   const open = useEditorStore((s) => s.commandPaletteOpen);
   const setOpen = useEditorStore((s) => s.setCommandPaletteOpen);
   const openFile = useEditorStore((s) => s.openFile);
+  const toggleTerminal = useEditorStore((s) => s.toggleTerminal);
   const [query, setQuery] = useState("");
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "p") {
+      if ((e.metaKey || e.ctrlKey) && (e.key.toLowerCase() === "p" || e.key.toLowerCase() === "k")) {
         e.preventDefault();
         setOpen(true);
       }
@@ -28,6 +29,9 @@ export function CommandPalette() {
   useEffect(() => {
     if (!open) setQuery("");
   }, [open]);
+
+  const showTerminalCmd =
+    query === "" || "view: toggle terminal".includes(query.toLowerCase()) || "terminal".includes(query.toLowerCase());
 
   const results = FILES.filter((f) =>
     f.name.toLowerCase().includes(query.toLowerCase())
@@ -57,11 +61,26 @@ export function CommandPalette() {
                 autoFocus
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Go to file..."
+                placeholder="Type a command or file name..."
                 className="w-full bg-transparent text-[13px] text-text-bright outline-none placeholder:text-text-muted"
               />
             </div>
             <div className="max-h-72 overflow-y-auto p-1">
+              {showTerminalCmd && (
+                <button
+                  onClick={() => {
+                    toggleTerminal();
+                    setOpen(false);
+                  }}
+                  className="flex w-full items-center gap-2 rounded px-2 py-2 text-left text-[13px] text-accent hover:bg-elevated-hover font-semibold"
+                >
+                  <TerminalIcon size={15} />
+                  <span>View: Toggle Integrated Terminal</span>
+                  <span className="ml-auto text-[11px] text-text-muted font-mono">
+                    Ctrl + ~
+                  </span>
+                </button>
+              )}
               {results.map((f) => (
                 <button
                   key={f.id}
@@ -78,9 +97,9 @@ export function CommandPalette() {
                   </span>
                 </button>
               ))}
-              {results.length === 0 && (
+              {!showTerminalCmd && results.length === 0 && (
                 <p className="px-3 py-4 text-center text-[13px] text-text-muted">
-                  No matching files
+                  No matching commands or files
                 </p>
               )}
             </div>

@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { GitBranch, AlertTriangle, XCircle, Bell, Wifi } from "lucide-react";
+import { GitBranch, AlertTriangle, XCircle, Bell, Wifi, Terminal as TerminalIcon } from "lucide-react";
+import { useEditorStore } from "@/lib/store";
 
 function formatTime(d: Date) {
   return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
@@ -9,6 +10,8 @@ function formatTime(d: Date) {
 
 export function StatusBar() {
   const [time, setTime] = useState<string>("");
+  const toggleTerminal = useEditorStore((s) => s.toggleTerminal);
+  const terminalOpen = useEditorStore((s) => s.terminalOpen);
 
   useEffect(() => {
     setTime(formatTime(new Date()));
@@ -27,6 +30,16 @@ export function StatusBar() {
           <GitBranch size={12} />
           main
         </span>
+        <button
+          onClick={toggleTerminal}
+          className={`flex items-center gap-1 px-1.5 py-0.5 rounded transition-colors hover:bg-white/20 ${
+            terminalOpen ? "bg-white/20 font-semibold" : ""
+          }`}
+          title="Toggle Terminal (Ctrl + ~)"
+        >
+          <TerminalIcon size={12} />
+          Terminal
+        </button>
         <span className="flex items-center gap-2">
           <span className="flex items-center gap-0.5">
             <AlertTriangle size={12} /> 0
