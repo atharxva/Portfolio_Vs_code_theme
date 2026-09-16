@@ -24,6 +24,16 @@ export const PROJECT_SECTIONS: ProjectSection[] = [
     dotColor: "bg-violet-400",
     projects: [
       {
+        id: "weather-prediction",
+        title: "Weather Rain Prediction ML Web App",
+        description:
+          "End-to-end Machine Learning web application predicting next-day rain probability worldwide using FastAPI, Scikit-learn, Open-Meteo real-time atmospheric APIs, and interactive dark-mode UI.",
+        tags: ["Machine Learning", "FastAPI", "Python", "Scikit-learn"],
+        codeUrl: "https://github.com/atharxva/Weather_prediction",
+        liveUrl: "https://weather-prediction-beryl-eight.vercel.app/",
+        gradient: "from-cyan-500/30 via-blue-600/20 to-slate-900",
+      },
+      {
         id: "script-trimmer",
         title: "Script Trimmer",
         description:
