@@ -501,11 +501,10 @@ export function Skills() {
                 key={line.lineNum}
                 onMouseEnter={() => setHoveredLine(line.lineNum)}
                 onMouseLeave={() => setHoveredLine(null)}
-                className={`group flex items-center transition-colors ${
-                  isHovered || (!isCompleted && isCursorHere)
+                className={`group flex items-center transition-colors ${isHovered || (!isCompleted && isCursorHere)
                     ? "bg-white/[0.035]"
                     : ""
-                }`}
+                  }`}
               >
                 {/* Gutter: Line Number & Folding Arrow */}
                 <div className="flex h-[22px] w-14 shrink-0 items-center justify-between pr-2 text-right text-[12px] font-mono select-none text-[#5c6370]">

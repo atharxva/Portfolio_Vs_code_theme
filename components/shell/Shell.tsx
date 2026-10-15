@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { TitleBar } from "./TitleBar";
 import { MenuBar } from "./MenuBar";
 import { ActivityBar } from "./ActivityBar";
@@ -11,10 +11,32 @@ import { StatusBar } from "./StatusBar";
 import { MainContent } from "./MainContent";
 import { Terminal } from "./Terminal";
 import { CommandPalette } from "./CommandPalette";
+import { ThemePickerModal } from "./ThemePickerModal";
+import { RecruiterView } from "@/components/pages/RecruiterView";
 import { useEditorStore } from "@/lib/store";
+import { ThemeId, applyTheme } from "@/lib/theme";
 
 export function Shell() {
   const toggleTerminal = useEditorStore((s) => s.toggleTerminal);
+  const recruiterMode = useEditorStore((s) => s.recruiterMode);
+  const setRecruiterMode = useEditorStore((s) => s.setRecruiterMode);
+  const setTheme = useEditorStore((s) => s.setTheme);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    // Restore saved theme from localStorage
+    if (typeof window !== "undefined") {
+      const savedTheme = localStorage.getItem("color_theme") as ThemeId | null;
+      if (savedTheme) {
+        setTheme(savedTheme);
+      }
+      const savedRecruiterMode = localStorage.getItem("recruiter_mode") === "true";
+      if (savedRecruiterMode) {
+        setRecruiterMode(true);
+      }
+    }
+  }, [setTheme, setRecruiterMode]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -31,18 +53,27 @@ export function Shell() {
     <div className="flex h-dvh flex-col overflow-hidden bg-app text-text-primary">
       <TitleBar />
       <MenuBar />
-      <div className="flex min-h-0 flex-1">
-        <ActivityBar />
-        <Explorer />
-        <div className="flex min-w-0 flex-1 flex-col">
-          <TabBar />
-          <Breadcrumb />
-          <MainContent />
-          <Terminal />
+
+      {recruiterMode ? (
+        <div className="flex-1 overflow-y-auto">
+          <RecruiterView />
         </div>
-      </div>
+      ) : (
+        <div className="flex min-h-0 flex-1">
+          <ActivityBar />
+          <Explorer />
+          <div className="flex min-w-0 flex-1 flex-col">
+            <TabBar />
+            <Breadcrumb />
+            <MainContent />
+            <Terminal />
+          </div>
+        </div>
+      )}
+
       <StatusBar />
       <CommandPalette />
+      <ThemePickerModal />
     </div>
   );
 }

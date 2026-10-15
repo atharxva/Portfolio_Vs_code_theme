@@ -47,6 +47,13 @@ export interface SkillCategory {
   skills: { name: string; icon?: string }[];
 }
 
+export interface ProjectArchitecture {
+  architectureType: string;
+  components: string[];
+  dataFlow: string[];
+  securityOrOptimization: string[];
+}
+
 export interface ProjectItem {
   id: string;
   title: string;
@@ -55,6 +62,11 @@ export interface ProjectItem {
   codeUrl?: string;
   liveUrl?: string;
   gradient: string; // tailwind gradient classes for the mock preview
+  isClosedSource?: boolean;
+  closedSourceReason?: string;
+  technicalContributions?: string[];
+  sandboxType?: "weather-ml" | "script-trimmer" | "live-iframe";
+  architecture?: ProjectArchitecture;
 }
 
 export interface ProjectSection {

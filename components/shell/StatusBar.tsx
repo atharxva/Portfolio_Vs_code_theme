@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { GitBranch, AlertTriangle, XCircle, Bell, Wifi, Terminal as TerminalIcon } from "lucide-react";
+import { GitBranch, AlertTriangle, XCircle, Bell, Wifi, Terminal as TerminalIcon, Zap } from "lucide-react";
 import { useEditorStore } from "@/lib/store";
 
 function formatTime(d: Date) {
@@ -12,6 +12,8 @@ export function StatusBar() {
   const [time, setTime] = useState<string>("");
   const toggleTerminal = useEditorStore((s) => s.toggleTerminal);
   const terminalOpen = useEditorStore((s) => s.terminalOpen);
+  const recruiterMode = useEditorStore((s) => s.recruiterMode);
+  const toggleRecruiterMode = useEditorStore((s) => s.toggleRecruiterMode);
 
   useEffect(() => {
     setTime(formatTime(new Date()));
@@ -32,7 +34,7 @@ export function StatusBar() {
         </span>
         <button
           onClick={toggleTerminal}
-          className={`flex items-center gap-1 px-1.5 py-0.5 rounded transition-colors hover:bg-white/20 ${
+          className={`flex items-center gap-1 px-1.5 py-0.5 rounded transition-colors hover:bg-white/20 cursor-pointer ${
             terminalOpen ? "bg-white/20 font-semibold" : ""
           }`}
           title="Toggle Terminal (Ctrl + ~)"
@@ -50,6 +52,19 @@ export function StatusBar() {
         </span>
       </div>
       <div className="flex items-center gap-3">
+        <button
+          onClick={toggleRecruiterMode}
+          className={`flex items-center gap-1 px-2 py-0.5 rounded font-medium transition-all cursor-pointer ${
+            recruiterMode
+              ? "bg-amber-400 text-slate-950 font-bold shadow-xs"
+              : "bg-white/20 hover:bg-white/30 text-white"
+          }`}
+          title="Toggle Fast Recruiter Mode"
+        >
+          <Zap size={11} className={recruiterMode ? "fill-slate-950" : "fill-amber-300 text-amber-300"} />
+          <span>⚡ Recruiter Mode</span>
+        </button>
+
         <span className="hidden sm:inline">Next.js</span>
         <span className="hidden sm:inline">TypeScript</span>
         <span className="hidden sm:inline">Tailwind</span>
