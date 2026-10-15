@@ -1,5 +1,31 @@
 import { SkillCategory } from "@/lib/types";
 
+export const SKILLS_DATA = {
+  developer: {
+    profile: "Atharva Jadhav",
+    skills: {
+      languages: ["TypeScript", "JavaScript", "Python", "Java", "C++", "SQL"],
+      frontend: {
+        core: ["React.js", "Next.js", "HTML5", "CSS3/Tailwind CSS"],
+        stateAndUi: ["Redux Toolkit", "Zustand", "Shadcn UI"],
+      },
+      backend: {
+        runtime: ["Node.js", "Express.js"],
+        apis: ["RESTful APIs", "GraphQL", "Microservices Architecture"],
+      },
+      databases: {
+        nosql: ["MongoDB"],
+        relational: ["PostgreSQL", "MySQL"],
+      },
+      devopsAndCloud: {
+        platforms: ["AWS (Certified Cloud Practitioner)", "Firebase"],
+        ciCdAndAutomation: ["Jenkins", "Docker", "n8n", "GitHub Actions"],
+      },
+      testingAndOptimization: ["Cypress", "Selenium", "JMeter", "Postman"],
+    },
+  },
+};
+
 export const SKILLS: SkillCategory[] = [
   {
     id: "languages",
